@@ -8,11 +8,27 @@
       "32": "images/icon-32.png",
       "48": "images/icon-48.png",
       "128": "images/icon-128.png"
+    
     },
     "permissions": ["activeTab", "scripting"],
     "background": {
         "service_worker": "background.js"
     },
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+ 
+    },
+
+    "content_scripts": [
+
+    {
+
+        "matches": ["<all_urls>"],
+        "js": ["popup.js"]
+    }
+    ],  
+
     "action": {
         "default_icon": {
           "16": "images/icon-16.png",
