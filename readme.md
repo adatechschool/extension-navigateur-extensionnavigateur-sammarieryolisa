@@ -10,5 +10,11 @@ mardi 9/1
 mercredi 10/1
 - re-brainstorming : nouvelles idées + choix du projet "sidebar traducteur"
 - plan d'attaque / MVP
+- début du code :
+    * l'extension ouvre automatique un onglet
+    * l'onglet redirige vers le site choisi
 
-
+jeudi 11/1
+- code :
+    * l'extension récupère la sélection opérée par l'utilisateur
+    * la recherche est lancée avec le mot choisi par l'utilisateur

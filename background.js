@@ -1,20 +1,31 @@
 
 
 // condition : si l'utilisateur clique sur un raccourci
-// action : créer un nouvel onglet
-chrome.action.onClicked.addListener(async () => { // si on clique sur l'icône de l'extension (à chancher si nécessaire)
+chrome.action.onClicked.addListener((tab) => { // si on clique sur l'icône de l'extension (à chancher si nécessaire)
+
+    // lancer le content-script pour récupérer la sélection
+    chrome.scripting.executeScript({
+        target: {tabId: tab.id},
+        files: ['scripts/content.js']
+    });
+});
+
+// écouter le message du content script pour récupérer le mot
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log("Message reçu du content script : ", request.searchWord);
     
-    // // récupérer le contenu du presse-papier
-    // let textSearch = await navigator.clipboard.readText()
-	// console.log(textSearch)
-    // // alternative : récupérer le texte sélectionné sur une page => il faudra peut-être déplacer ce bout de code dans un content_script
-    // var selection = window.getSelection();
-    
-    
-    // pour ouvrir un nouvel onglet
+    // ouvrir un nouvel onglet avec le mot souhaité
     chrome.tabs.create(
         {
-            url: "https://www.wordreference.com/enfr/live"
+            url: `https://www.wordreference.com/enfr/${request.searchWord}`
         }
-      )
-});
+        )
+
+        // retourner la traduction
+        sendResponse({ response: "bien reçu" });
+
+    });
+
+
+    // récupérer la sélection envoyée par message depuis le content-script
+    
