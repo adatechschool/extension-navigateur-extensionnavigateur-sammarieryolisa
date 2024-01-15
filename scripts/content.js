@@ -1,8 +1,6 @@
 // alternative : récupérer le texte sélectionné sur une page => il faudra peut-être déplacer ce bout de code dans un content_script
 var selection = window.getSelection().toString().toLowerCase();
 
-console.log(selection)
-
 // condition : si la sélection n'est pas vide
 if (selection){
     // envoyer la sélection vers le background script

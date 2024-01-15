@@ -10,7 +10,7 @@
       "128": "images/icon-128.png"
     
     },
-    "permissions": ["activeTab", "scripting", "sidePanel"],
+    "permissions": ["activeTab", "scripting", "sidePanel", "contextMenus"],
     "background": {
         "service_worker": "background.js"
     },
