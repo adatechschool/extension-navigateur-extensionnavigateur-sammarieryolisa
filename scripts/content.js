@@ -10,11 +10,11 @@ if (selection){
         console.log(response);
     })();
 
-    // (async () => {
-    //     // transmettre le mot à la sidebar
-    //     const response = await chrome.runtime.sendMessage({type: "toBeSaved", wordToBeSaved: selection});
-    //     // gérer la réponse : est-ce que j'en ai besoin ? ou bien est-ce que c'est plutôt à envoyer vers la sidebar ?
-    //     console.log(response);
-    // })();
+    (async () => {
+    // transmettre le mot à la sidebar
+    const response = await chrome.runtime.sendMessage({type: "toBeSaved", wordToBeSaved: selection});
+    // gérer la réponse : est-ce que j'en ai besoin ? ou bien est-ce que c'est plutôt à envoyer vers la sidebar ?
+    console.log(response);
+    })();
 }
 
