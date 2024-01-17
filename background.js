@@ -24,10 +24,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             }
             )
             
-            // retourner la traduction
-            sendResponse({ response: "bien reçu" });
-        }
-    });
+        // retourner la traduction
+        sendResponse({ response: "bien reçu" });
+    }
+});
     
     
     // récupérer la sélection envoyée par message depuis le content-script
@@ -42,8 +42,8 @@ chrome.sidePanel
 async function ContextualMenuClick(info, tab) {
     switch (info.menuItemId) {
         case 'search':
-            await chrome.sidePanel.open({ windowId: tab.windowId }); // doit être ouvert là sinon le script ne se déclenche pas)
             getTextSelection(tab);
+            await chrome.sidePanel.open({ windowId: tab.windowId }); // doit être ouvert là sinon le script ne se déclenche pas)
             break;
         case 'openSidePanel':
             chrome.sidePanel.open({ windowId: tab.windowId });
@@ -73,3 +73,14 @@ async function ContextualMenuClick(info, tab) {
 
 // si je fais clic droit, des options sont proposées (ouvrir le sidepanel, lancer une recherche...)
 chrome.contextMenus.onClicked.addListener((info, tab) => {ContextualMenuClick(info, tab)});
+
+
+// créer un raccourci pour lancer une recherche automatiquement & ouvrir le sidePanel
+chrome.commands.onCommand.addListener(async (command) => {
+    await chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => { // obligé de nester car sinon le sidePanel ne peut pas s'ouvrir
+        chrome.sidePanel.open({ tabId: tab.id });
+        getTextSelection(tab)
+    });
+    // await chrome.sidePanel.open({ windowId: tab.windowI }); // doit être ouvert là sinon le script ne se déclenche pas)
+    console.log(`Command "${command}" triggered`);
+  });

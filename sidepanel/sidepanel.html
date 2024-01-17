@@ -6,10 +6,12 @@
   <body>
     <h1>Le lexique de la session</h1>
     <div class="sidebar">
-        <ul class="list"></ul>
-      <input type="text" id="newWordInput" placeholder="Entrez un nouveau mot"/>
-      <button id="addButton">Sauvegarder</button>
+        <ul class="wordsList"></ul>
+      <input type="text" id="newWordInput" placeholder="Vous pouvez entrer directement ici un nouveau mot"/>
+      <button id="addNewWordBtn">Sauvegarder</button>
     </div>
+    <button class="deleteList" onclick="deleteList()">Supprimer la liste</button>
+    <button class="exportList" onclick="exportList()">Exporter la liste</button>
     <script src="sidepanel.js"></script>
   </body>
 </html>

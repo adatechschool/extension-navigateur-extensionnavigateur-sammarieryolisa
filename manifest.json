@@ -31,6 +31,10 @@
                 "default": "Ctrl+B",
                 "mac": "Command+B"
             }
+        },
+        "triggerSearch": {
+            "suggested_key": "Ctrl+M",
+            "description": "launch search & openTab"
         }
     }
 }
