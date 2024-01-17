@@ -11,7 +11,8 @@ if (selection){
         
         // sauvegarder le mot
         await chrome.storage.local.get({ pastResearches: [] }, function (storageData) {
-            storageData.pastResearches.push(selection);
+            storageData.pastResearches.push({word:selection, translation:""});
+            console.log(storageData.pastResearches[0]);
             chrome.storage.local.set(
                 { pastResearches: storageData.pastResearches },
                 function () {
