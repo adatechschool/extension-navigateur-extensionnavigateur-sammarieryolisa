@@ -2,13 +2,21 @@
 <html lang="en">
   <head>
     <title>Mon lexique</title>
+    <link rel="stylesheet" href="sidepanel.css">
   </head>
   <body>
-    <h1>Le lexique de la session</h1>
+    <header>
+      <h1>My Vocabulary List</h1>
+      <div id="source">
+        <div id="sourceTitle">Source :</div>
+        <input type="text" id="sourceInput" placeholder="Indiquez la source (facultatif)">
+        <button id="saveSource"><svg id="vSourceIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"> <rect width="16" height="16" rx="5" fill="#65005B"/> <path d="M5.8667 10.6L3.0667 7.79999L2.13336 8.73333L5.8667 12.4667L13.8667 4.46666L12.9334 3.53333L5.8667 10.6Z" fill="#FAFAFA"/> </svg></button>
+      </div>
+    </header>
     <div class="sidebar">
-        <ul class="wordsList"></ul>
       <input type="text" id="newWordInput" placeholder="Vous pouvez entrer directement ici un nouveau mot"/>
       <button id="addNewWordBtn">Sauvegarder</button>
+      <ul class="wordsList"></ul>
     </div>
     <button class="deleteList" onclick="deleteList()">Supprimer la liste</button>
     <button class="exportList" onclick="exportList()">Exporter la liste</button>
