@@ -17,11 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add click event listener to each saved word for deletion
   wordsListDOM.addEventListener("click", function (event) {
-    if (event.target.className === "delete") {
+    if (event.target.parentNode.className === "delete") {
+      console.log("on va supprimer un truc")
       deleteWord(event);
-    } else if (event.target.className === "saveTranslation") {
+    } else if (event.target.parentNode.className === "saveTranslation") {
       saveTranslation(event); // TODO
-    } else if (event.target.className === "launchSearch") {
+    } else if (event.target.parentNode.className === "launchSearch") {
       lookupWord(event.target.dataset.word);
     }
   });
@@ -88,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // supprimer un mot
   function deleteWord(event) {
-    const wordToDelete = event.target.dataset.word;
+    const wordToDelete = event.target.parentNode.dataset.word;
     chrome.storage.local.get({ pastResearches: [] }, function (storageData) {
       storageData.pastResearches = storageData.pastResearches.filter(
         (word) => word !== wordToDelete
@@ -105,14 +106,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //ça marche pas 
   function saveTranslation(event) {
-    const button = event.currentTarget;
-    const listItem = button.closest("li");
 
-    if (listItem) {
-      const word = listItem.querySelector(".translationInput").dataset.word;
+    const wordBox = event.target.parentNode.parentNode.parentNode;
+    const translationInput = wordBox.querySelector(".translationInput");
+
+    if (translationInput.value) {
+      // identifier le mot concerné
+      const word = wordBox.querySelector(".translationInput").dataset.word;
       const trimmedWord = word.trim();
 
-      const translationInput = listItem.querySelector(".translationInput");
+      // créer la nvlle div
+      var translated = document.createElement('div');
+      translated.className = 'translated';
+      translated.textContent = translationInput.value;
+      // remplacer l'ancienne div par la nouvelle
+      wordBox.replaceChild(translated, translationInput.parentNode);
+
 
       if (translationInput) {
         const translation = translationInput.value.trim();
@@ -154,26 +163,29 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add click event listener to the "Supprimer la liste" button
-  const deleteListBtn = document.querySelector(".deleteList");
-  console.log(deleteListBtn);
+  const deleteListBtn = document.querySelector("#deleteList");
   deleteListBtn.addEventListener("click", deleteList);
 
   // Add click event listener to the "Exporter la liste" button
-  const exportListBtn = document.querySelector(".exportList");
-  console.log(exportListBtn);
+  const exportListBtn = document.querySelector("#exportList");
   exportListBtn.addEventListener("click", exportList);
 
   // Function to update the UI with the list of saved words
   function updatePanelList(pastResearches) {
     wordsListDOM.innerHTML = ""; // Clear the list
     pastResearches.forEach(function (word) {
-      const listItem = document.createElement("li");
-      listItem.innerHTML = `<span>${word}</span> 
-                            <button class="delete" data-word="${word}">Effacer</button>
-                            <input type="text" class="translationInput" data-word="${word}" placeholder="Entrez la traduction">
-                            <button class="saveTranslation" data-word="${word}">Sauvegarder la traduction</button>
-                            <button class="launchSearch" data-word="${word}"><a href="https://www.wordreference.com/enfr/${word}" target="_blank">Relancer une recherche</a></button>`;
+      const listItem = document.createElement('div');
+      listItem.className = "wordBox"
+      listItem.innerHTML = `
+        <span class="word">${word}</span> 
+        <div class="translateBox">
+        <button class="launchSearch" data-word="${word}"><a href="https://www.wordreference.com/enfr/${word}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.08333 11.6667H7.74167L7.975 11.4417C7.15833 10.4917 6.66667 9.25833 6.66667 7.91667C6.66667 4.925 9.09167 2.5 12.0833 2.5C15.075 2.5 17.5 4.925 17.5 7.91667C17.5 10.9083 15.075 13.3333 12.0833 13.3333C10.7417 13.3333 9.50833 12.8417 8.55833 12.025L8.33333 12.2583V12.9167L4.16667 17.075L2.925 15.8333L7.08333 11.6667ZM12.0833 11.6667C14.1583 11.6667 15.8333 9.99167 15.8333 7.91667C15.8333 5.84167 14.1583 4.16667 12.0833 4.16667C10.0083 4.16667 8.33333 5.84167 8.33333 7.91667C8.33333 9.99167 10.0083 11.6667 12.0833 11.6667Z" fill="#020202"/></svg></a></button>
+        <input type="text" class="translationInput" data-word="${word}" placeholder="Entrez la traduction">
+        <button class="saveTranslation" data-word="${word}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.33335 13.25L3.83335 9.74999L2.66669 10.9167L7.33335 15.5833L17.3334 5.58332L16.1667 4.41666L7.33335 13.25Z" fill="#020202"/></svg></button>
+        </div>
+        <button class="delete" data-word="${word}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.8334 5.34166L14.6584 4.16666L10 8.82499L5.34169 4.16666L4.16669 5.34166L8.82502 9.99999L4.16669 14.6583L5.34169 15.8333L10 11.175L14.6584 15.8333L15.8334 14.6583L11.175 9.99999L15.8334 5.34166Z" fill="#FF0000"/></svg></button>`
       wordsListDOM.appendChild(listItem);
     });
   }
 });
+
