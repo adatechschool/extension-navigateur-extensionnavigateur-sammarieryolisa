@@ -21,7 +21,7 @@ h1 {
     color: #FFF;
     text-align: center;
     font-family: Josefin Sans;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -63,7 +63,7 @@ sourceInput {
 
 
 #addWordBox {
-    width: 22.375rem;
+    width: 18.375rem;
     height: 2.375rem;
     border-radius: 0.625rem;
     background: #C756BC;
@@ -73,15 +73,16 @@ sourceInput {
     font-size: 1rem;
     color: #FFF;
     
-    margin: 1rem auto 1rem auto;
+    margin: 1rem auto 2rem auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #newWordInput {
-    margin: 0 1rem 0 0.5rem;
+    margin: 0 0.5rem 0 0.5rem;
     font-family: Josefin Sans;
+    width: 100px;
 }
 
 button {
@@ -92,29 +93,22 @@ button {
     cursor:pointer;
 }
 
-#sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
 .wordBox {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     height: 50px;
-    /* width: 100px; */
-    margin:5px;
-    padding: 2px;
-
+    width: 100%;
+    margin: 5px 0 5px 0;
 }
 
 .word {
     color: #65005B;
-    margin: 0 2rem 0 2rem;
+    padding: 0 0 0 2rem;
     /* width: 150px; */
     /* TranslateWord */
+    width: 30%;
     font-family: Josefin Sans;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -124,9 +118,11 @@ button {
 
 .translateBox {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
+    width: 50%;
     height: 1rem;
-    margin: 1rem 1rem 0 0.5rem;
+    margin: 1rem 1rem 0 0;
 }
 
 .launchSearch {
@@ -149,17 +145,6 @@ button {
     margin-right: 0.2rem;
 }
 
-.translated {
-    color: #65005B;
-    font-family: Josefin Sans;
-    font-size: 0.8rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.015rem;
-    height: 1rem;
-    margin: 1rem 1rem 0 0.5rem;
-}
 
 .saveTranslation {
     width: 1.25rem;
@@ -167,11 +152,25 @@ button {
     flex-shrink: 0;
 }
 
+.translated {
+    color: #65005B;
+    font-family: Josefin Sans;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.015rem;
+    height: 1rem;
+    margin: 1rem 1rem 0 0;
+    padding-left: 10%;
+    width: 50%;
+}
 
 .delete {
     width: 1.25rem;
     height: 1.25rem;
-    flex-shrink: 0;
+    width: 10%;
+    text-align: center;
 }
 
 .line {
