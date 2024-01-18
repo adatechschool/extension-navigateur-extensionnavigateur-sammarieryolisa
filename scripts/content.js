@@ -1,33 +1,29 @@
+function saveWord(storageData) {
+  const word = window.getSelection().toString().toLowerCase();
+  const newResearches = [...storageData.pastResearches, { word, translation: "" }]
+  chrome.storage.local.set({ pastResearches: newResearches });
+}
+
+async function saveWordAndSendMessages(selection) {
+  // recupere l'array de mots sauvegarés et on y ajoute la recherche
+  await chrome.storage.local.get({ pastResearches: [] }, saveWord);
+
+  // envoyer la sélection vers le background script pour ouvrir un onglet
+  await chrome.runtime.sendMessage({
+    type: "toBeSearched",
+    searchWord: selection,
+  });
+
+  // transmettre le mot à la sidebar pour l'lafficher
+  await chrome.runtime.sendMessage({
+    type: "updateList",
+    wordToBeSaved: selection,
+  });
+}
+
 // FONCTION PRINCIPALE : récupérer le mot sélectionné
-var selection = window.getSelection().toString().toLowerCase();
+let selection = window.getSelection().toString().toLowerCase();
 
 if (selection) {
-  (async () => {
-    // sauvegarder le mot
-    await chrome.storage.local.get(
-      { pastResearches: [] },
-      function (storageData) {
-        storageData.pastResearches.push({ word: selection, translation: "" });
-        console.log(storageData.pastResearches[0]);
-        chrome.storage.local.set(
-          { pastResearches: storageData.pastResearches },
-          function () {
-            console.log("Word saved:", selection);
-          }
-        );
-      }
-    );
-
-    // envoyer la sélection vers le background script pour ouvrir un onglet
-    const responsea = await chrome.runtime.sendMessage({
-      type: "toBeSearched",
-      searchWord: selection,
-    });
-
-    // transmettre le mot à la sidebar pour l'lafficher
-    const responseb = await chrome.runtime.sendMessage({
-      type: "updateList",
-      wordToBeSaved: selection,
-    });
-  })();
+  saveWordAndSendMessages(selection);
 }
