@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Fast Trans",
-  "description": "Get quick translations in your sidebar",
+  "description": "Get instant translations in your sidebar",
   "version": "1.0",
   "icons": {
     "16": "images/icon-16.png",

@@ -1,32 +1,29 @@
-// alternative : récupérer le texte sélectionné sur une page => il faudra peut-être déplacer ce bout de code dans un content_script
-var selection = window.getSelection().toString().toLowerCase();
-
-// condition : si la sélection n'est pas vide
-if (selection){
-    (async () => {
-        // sauvegarder le mot
-        await chrome.storage.local.get({ pastResearches: [] }, function (storageData) {
-            storageData.pastResearches.push({word:selection, translation:""});
-            console.log(storageData.pastResearches[0]);
-            chrome.storage.local.set(
-                { pastResearches: storageData.pastResearches },
-                function () {
-                    console.log("Word saved:", selection);
-                }
-                );
-            });
-        
-        // envoyer la sélection vers le background script
-        const responsea = await chrome.runtime.sendMessage({type: "toBeSearched", searchWord: selection});
-        // gérer la réponse : est-ce que j'en ai besoin ? ou bien est-ce que c'est plutôt à envoyer vers la sidebar ?
-        console.log(responsea);
-        
-
-            // transmettre le mot à la sidebar
-            const responseb = await chrome.runtime.sendMessage({type: "updateList", wordToBeSaved: selection});
-            // gérer la réponse : est-ce que j'en ai besoin ? ou bien est-ce que c'est plutôt à envoyer vers la sidebar ?
-            console.log(responseb);
-        })();
-
+function saveWord(storageData) {
+  const word = window.getSelection().toString().toLowerCase();
+  const newResearches = [...storageData.pastResearches, { word, translation: "" }]
+  chrome.storage.local.set({ pastResearches: newResearches });
 }
 
+async function saveWordAndSendMessages(selection) {
+  // recupere l'array de mots sauvegarés et on y ajoute la recherche
+  await chrome.storage.local.get({ pastResearches: [] }, saveWord);
+
+  // envoyer la sélection vers le background script pour ouvrir un onglet
+  await chrome.runtime.sendMessage({
+    type: "toBeSearched",
+    searchWord: selection,
+  });
+
+  // transmettre le mot à la sidebar pour l'lafficher
+  await chrome.runtime.sendMessage({
+    type: "updateList",
+    wordToBeSaved: selection,
+  });
+}
+
+// FONCTION PRINCIPALE : récupérer le mot sélectionné
+let selection = window.getSelection().toString().toLowerCase();
+
+if (selection) {
+  saveWordAndSendMessages(selection);
+}
