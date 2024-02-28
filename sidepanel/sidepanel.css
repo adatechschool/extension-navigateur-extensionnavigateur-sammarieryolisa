@@ -9,7 +9,6 @@ header {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    /* flex-shrink: 0; */
 
     padding: 0.3rem;
     border-radius: 0.625rem;

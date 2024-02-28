@@ -4,8 +4,8 @@ function saveWord(storageData) {
   chrome.storage.local.set({ pastResearches: newResearches });
 }
 
+// recupere l'array de mots sauvegarés et on y ajoute la recherche
 async function saveWordAndSendMessages(selection) {
-  // recupere l'array de mots sauvegarés et on y ajoute la recherche
   await chrome.storage.local.get({ pastResearches: [] }, saveWord);
 
   // envoyer la sélection vers le background script pour ouvrir un onglet
